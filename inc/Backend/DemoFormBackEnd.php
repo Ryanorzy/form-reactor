@@ -2,6 +2,7 @@
 
 namespace FormReactor\Backend;
 
+use FormReactor;
 use FormReactor\AbstractBackEnd;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -33,6 +34,16 @@ class DemoFormBackEnd extends AbstractBackEnd {
 	//--------------------------------------------------------------------------
 	function defineRestEndpoints() {
 		// Put any calls to register_rest_route() in here
+		register_rest_route(FormReactor::REST_BASE, '/submit-character', [
+			'methods' => ['POST'],
+			'callback' => function(\WP_REST_Request $request) {
+				error_log(print_r($request->get_params(), true));
+				return $this->success([
+						'url'=>home_url(),
+					]
+				);
+			},
+		]);
 	}
 	//--------------------------------------------------------------------------
 }
